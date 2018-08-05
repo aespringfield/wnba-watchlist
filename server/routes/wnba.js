@@ -1,7 +1,8 @@
+require('dotenv').config();
+
 const express = require('express');
 const router = express.Router();
-
-const schedule = require('../assets/schedule.json')
+const request = require('request');
 
 const withinRange = (game, range) => {
     const gameDate = new Date(game.scheduled);
@@ -28,10 +29,12 @@ const gamesToday = (games) => {
     })
 }
 
-const goodGames = getGoodGames(schedule.games, 7, 10)
-
 router.get('/', (req, res) => {
-
+    request(`https://api.sportradar.us/wnba/trial/v4/en/games/2018/REG/schedule.json?api_key=${process.env.API_KEY}`, (error, response, body) => {
+        console.log('error:', error);
+        console.log('body:', body);
+        const goodGames = getGoodGames(body.games, 7, 10)
+    });
 })
 
 module.exports = router;
