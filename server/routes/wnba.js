@@ -29,11 +29,29 @@ const gamesToday = (games) => {
     })
 }
 
+const stripOutScore = (games) => {
+    return games.map((game) => {
+        const {id, status, scheduled, reference} = game;
+        return {
+            id: id,
+            status: status,
+            scheduled: scheduled,
+            reference: reference,
+            home: game.home,
+            away: game.away
+        }
+    })
+}
+
 router.get('/', (req, res) => {
     request(`https://api.sportradar.us/wnba/trial/v4/en/games/2018/REG/schedule.json?api_key=${process.env.API_KEY}`, (error, response, body) => {
-        console.log('error:', error);
-        console.log('body:', body);
-        const goodGames = getGoodGames(body.games, 7, 10)
+        if (error) {
+            console.log('error:', error);
+        }
+
+        const games = JSON.parse(body).games;
+        const goodGames = getGoodGames(games, 7, 6)
+        res.send(stripOutScore(goodGames));
     });
 })
 

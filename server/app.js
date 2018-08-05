@@ -1,5 +1,10 @@
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
+
+// Body parser middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
 const wnba = require('./routes/wnba');
 
