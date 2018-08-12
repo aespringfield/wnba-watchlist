@@ -3,7 +3,8 @@ require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const request = require('request');
-const moment = require('moment');
+const moment = require('moment-timezone');
+moment.tz.setDefault('America/Chicago')
 
 const withinRange = (game, range) => {
     const gameDate = moment(game.scheduled);
@@ -45,7 +46,7 @@ const stripOutScore = (games) => {
         return {
             id: id,
             status: status,
-            scheduled: moment(scheduled).format('MMMM Do YYYY, h:mm a'),
+            scheduled: moment(scheduled).format('MMMM Do YYYY, h:mm a z'),
             reference: reference,
             home: game.home,
             away: game.away
@@ -80,7 +81,7 @@ router.get('/today', (req, res) => {
     });
 })
 
-router.get('/tomorrow', (req, res) => {
+router.get('/tomorrow/:country/:city', (req, res) => {
     request(`https://api.sportradar.us/wnba/trial/v4/en/games/2018/REG/schedule.json?api_key=${process.env.API_KEY}`, (error, response, body) => {
         if (error) {
             console.log('error:', error);
