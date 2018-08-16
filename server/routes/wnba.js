@@ -81,7 +81,7 @@ router.get('/today', (req, res) => {
     });
 })
 
-router.get('/tomorrow/:country/:city', (req, res) => {
+router.get('/tomorrow', (req, res) => {
     request(`https://api.sportradar.us/wnba/trial/v4/en/games/2018/REG/schedule.json?api_key=${process.env.API_KEY}`, (error, response, body) => {
         if (error) {
             console.log('error:', error);
