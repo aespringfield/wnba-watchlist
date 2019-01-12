@@ -7,8 +7,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 const wnba = require('./routes/wnba');
+const index = require('./routes/index');
 
 app.use('/wnba', wnba);
+app.use('*', index);
 
 app.set('port', (process.env.PORT || 3000));
 app.listen(app.get('port'), () => {
