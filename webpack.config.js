@@ -3,10 +3,12 @@ const path = require('path');
 module.exports = (options) => {
     return {
         context: path.join(__dirname, 'server/public/views'),
-        entry: './index.js',
+        entry: {
+            index: './index.js'
+        },
         output: {
             path: __dirname + '/public/views/',
-            filename: 'bundle.js'
+            filename: '[name].js'
         },
         // Specify new rule for loading JS files
         module: {
