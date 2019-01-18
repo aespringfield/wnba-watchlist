@@ -5,7 +5,10 @@ module.exports = (options) => {
         entry: {
             index: path.join(__dirname, 'client/views/index.js')
         },
+        target: 'node',
         output: {
+            library: '',
+            libraryTarget: 'commonjs',
             path:  path.join(__dirname, 'server/public/views'),
             filename: '[name].js'
         },
